@@ -1,0 +1,24 @@
+{
+  "scenarios": [
+    {
+      "name":"Captain Phillips",
+      "task":"Steal and equip the Captain's uniform and ID badge, then successfully depart the sub."
+    },
+    {
+      "name":"A Sinking Feeling",
+      "task":"Disable all the main floor pumps and the airlock, then find a way to scuttle the sub.\nEscape."
+    },
+    {
+      "name":"Darkness, Imprisoning Me",
+      "task":"Disable at least 50% of the ships batteries. Cause a reactor meltdown and depart the sub... *With* the surplus stock of uranium."
+    },
+    {
+      "name":"Breaking Bad",
+      "task":"Cause the Security Officer to experience psychosis by injecting them with Methamphetamines.\nPlant some drugs on them and escape via the diving bell."
+    },
+    {
+      "name":"The Cask of Amontillado",
+      "task":"Handcuff another crew member inside a ballast tank, then successfully weld the hatch closed.\nYou win if they drown before they are discovered."
+    }
+  ]
+}
