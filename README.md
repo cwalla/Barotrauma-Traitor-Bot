@@ -29,7 +29,9 @@ How to install dependancies / Set up dev environment:
 	* Run npm install discord.js
 	* Run npm install nodemon --save-dev
 
-	If using Git (recommended):
+
+If using Git (recommended):
+
 	* Open a Powershell CLI:
 		* Run choco install -y git
 	* Setup Git:
@@ -41,8 +43,10 @@ How to install dependancies / Set up dev environment:
 	* Clone the Repo:
 		* Run git clone https://github.com/cwalla/Barotrauma-Traitor-Bot.git
 
-	If using Atom:
+If using Atom:
+
 		* git config --global core.editor "atom --wait"
 
-	If using Notepad++:
+If using Notepad++:
+
 		* $ git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
