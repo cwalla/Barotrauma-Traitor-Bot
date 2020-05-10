@@ -13,12 +13,13 @@ Command Syntax:
 	* !clear: Clears all currently set traitors.
 	* !help: Display the Man page in discord
 	* !dump: Logs the state of various globals to the process console
-  
+
 
 How to install dependancies / Set up dev environment:
 
 	* Install Node.js 12.16.3 from https://nodejs.org/en/
-    * Allow it to install dependencies, you will also need npm and the ability to compile certain modules
+    * Allow it to install dependencies, as you will also need npm and the ability to compile certain modules
+		* The full install includes chocolatey, which can be used to install Git later
 		* This will also add npm to the system path
 	* Open a powershell prompt
 	* Change the execution policy for powershell to allow scripts:
@@ -27,3 +28,21 @@ How to install dependancies / Set up dev environment:
 			* To check the current policy: Get-ExecutionPolicy -List
 	* Run npm install discord.js
 	* Run npm install nodemon --save-dev
+
+	If using Git (recommended):
+	* Open a Powershell CLI:
+		* Run choco install -y git
+	* Setup Git:
+		* Run git config user.name "your user name"
+		* Run git config --global user.email "your commit email"
+			* To use an anonymous email, see https://github.com/settings/emails for your gitHub no-reply address
+		* Run git config --global credential.helper wincred
+			* This will cache your gitHub credentials for commits
+	* Clone the Repo:
+		* Run git clone https://github.com/cwalla/Barotrauma-Traitor-Bot.git
+
+	If using Atom:
+		* git config --global core.editor "atom --wait"
+
+	If using Notepad++:
+		* $ git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
