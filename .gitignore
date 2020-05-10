@@ -1,3 +1,6 @@
+#Discord token for the bot
+token.json
+
 # Logs
 logs
 *.log
