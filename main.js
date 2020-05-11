@@ -1,12 +1,12 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const auth = require('./token.json');
-const token = auth.token;
+//const auth = require('./token.json');
+//const token = auth.token;
 const treachery = require('./scenarios.json');
 
 var traitor = '';
 
-client.login(token);
+client.login(process.env.BOT_TOKEN);
 client.on('ready', () => {
  console.log(`Logged in as ${client.user.tag}!`);
  });
