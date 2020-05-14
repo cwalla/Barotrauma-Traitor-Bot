@@ -19,6 +19,22 @@
     {
       "name":"The Cask of Amontillado",
       "task":"Handcuff another crew member inside a ballast tank, then successfully weld the hatch closed.\nYou win if they drown before they are discovered."
+    },
+    {
+      "name":"Houston We've Had A Problem",
+      "task":"Cause an explosion that destroys the ship's oxygen generator and then successfully return to the station you left from."
+    },
+    {
+      "name":"MURMAIDER",
+      "task":"Murder everyone in the crew in a unique fashion, then join the creatures beneath the sea."
+    },
+    {
+      "name":"World Disarmament Conference",
+      "task":"Remove every (lethal) weapon from the sub, then handcuff everyone else.\nStun and grab, then move cuffs to their inventory and click the bar above the item to equip it to them ;)"
+    },
+    {
+      "name":"Interspacial Weapons Deals",
+      "task":"Smuggle a shipment of at least 20 fuel rods from the sub to a station."
     }
   ]
 }
