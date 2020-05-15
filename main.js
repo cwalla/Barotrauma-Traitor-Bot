@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const auth = require('./token.json');
 //IMPORTANT: Comment out these two lines before Heroku deployment:
+const auth = require('./token.json');
 const token = auth.token;
-const treachery = require('./scenarios.json');
 
+const treachery = require('./scenarios.json');
 var traitor = '';
 
 //IMPORTANT: Comment out this line before Heroku deployment:
