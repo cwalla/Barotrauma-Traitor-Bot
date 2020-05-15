@@ -1,12 +1,16 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-//const auth = require('./token.json');
-//const token = auth.token;
+const auth = require('./token.json');
+//IMPORTANT: Comment out these two lines before Heroku deployment:
+const token = auth.token;
 const treachery = require('./scenarios.json');
 
 var traitor = '';
 
-client.login(process.env.BOT_TOKEN);
+//IMPORTANT: Comment out this line before Heroku deployment:
+client.login(token);
+//IMPORTANT: Uncomment this line for Heroku deployment:
+//client.login(process.env.BOT_TOKEN);
 client.on('ready', () => {
  console.log(`Logged in as ${client.user.tag}!`);
  });
@@ -42,23 +46,18 @@ client.on('ready', () => {
         '`!settraitor @<userName>`'
       );
     }
+    //Ensure traitor is not a bot
+    if (member.user.bot) {
+      message.channel.send('"Hello, me...  Meet the *real* me!"');
+      message.channel.send('`Hint: Bots cannot be traitors.`');
+      return;
+    }
      traitor = member;
      message.channel.send(`Set ${traitor.displayName} as the traitor.`);
      member.send("You are the traitor.");
      const orders = getRandomTask(treachery.scenarios);
      traitor.send(`Commence operation: ${orders.name}`);
      traitor.send(`Your mission: ${orders.task}`);
-   }
-
-   //Set self as traitor for testing purposes
-   if (message.content === '!self') {
-     traitor = message.member;
-     message.author.send("You are the traitor.");
-
-     const orders = getRandomTask(treachery.scenarios);
-     traitor.send(`Commence operation: ${orders.name}`);
-     traitor.send(`Your mission: ${orders.task}`);
-     console.log(traitor.displayName);
    }
 
    //Reveal who the traitor was
@@ -94,7 +93,6 @@ client.on('ready', () => {
        + '!rolltraitor: Randomly select a traitor.\n'
        + '!reveal: Reveal who the traitor was.\n'
        + '!settraitor @<userName>: Make a player the traitor.\n'
-       + '!self: Set yourself as the traitor.\n'
        + '!clear: Clears all currently set traitors.\n'
        + '```'
      );

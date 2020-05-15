@@ -9,7 +9,6 @@ Command Syntax:
 	* !rolltraitor | !roll: Randomly select a traitor.
 	* !reveal: Reveal who the traitor was.
 	* !settraitor @<userName>: Make a player the traitor.
-	* !self: Set yourself as the traitor.
 	* !clear: Clears all currently set traitors.
 	* !help: Display the Man page in discord
 	* !dump: Logs the state of various globals to the process console
