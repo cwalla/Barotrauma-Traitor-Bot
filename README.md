@@ -12,6 +12,9 @@ Command Syntax:
 	* !clear: Clears all currently set traitors.
 	* !help: Display the Man page in discord
 	* !dump: Logs the state of various globals to the process console
+	 -------DM Commands:--------
+	* '!success: Marks the current task as complete for the traitor.\n'
+	* '!surrender: Give in and remove yourself as traitor.  Alerts the session text channel.'
 
 
 How to install dependancies / Set up dev environment:
