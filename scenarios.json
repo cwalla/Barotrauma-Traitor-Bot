@@ -1,5 +1,6 @@
 {
-  "scenarios": [
+  "majorTasks":
+   [
     {
       "name":"Captain Phillips",
       "task":"Steal and equip the Captain's uniform and ID badge, then successfully depart the sub.",
@@ -44,6 +45,52 @@
       "name":"Interspacial Weapons Deals",
       "task":"Smuggle a shipment of at least 20 fuel rods from the sub to a station.",
       "tip":"I Don't know how to complete this task: Why is fuel a weapon deal?"
+    }
+  ],
+  "minorTasks":
+  [
+    {
+      "name":"<Minor Name 1>",
+      "task":"<Minor Task 1>"
+    },
+    {
+      "name":"<Minor Name 2>",
+      "task":"<Minor Task 2>"
+    },
+    {
+      "name":"<Minor Name 3>",
+      "task":"<Minor Task 3>"
+    },
+    {
+      "name":"<Minor Name 4>",
+      "task":"<Minor Task 4>"
+    },
+    {
+      "name":"<Minor Name 5>",
+      "task":"<Minor Task 5>"
+    }
+  ],
+  "mischiefTasks":
+  [
+    {
+      "name":"<Mischief Name 1>",
+      "task":"<Mischief Task 1>"
+    },
+    {
+      "name":"<Mischief Name 2>",
+      "task":"<Mischief Task 2>"
+    },
+    {
+      "name":"<Mischief Name 3>",
+      "task":"<Mischief Task 3>"
+    },
+    {
+      "name":"<Mischief Name 4>",
+      "task":"<Mischief Task 4>"
+    },
+    {
+      "name":"<Mischief Name 5>",
+      "task":"<Mischief Task 5>"
     }
   ]
 }
