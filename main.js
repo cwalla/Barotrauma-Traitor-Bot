@@ -39,6 +39,7 @@ client.on('message', message => {
        traitor.send("You are the traitor.");
        traitor.send(`Commence operation: ${mission.name}`);
        traitor.send(`Your mission: ${mission.task}`);
+       traitor.send(`PS: ${mission.tip}`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
        console.log(err);S
@@ -70,6 +71,7 @@ client.on('message', message => {
       traitor.send("You are the traitor.");
       traitor.send(`Commence operation: ${mission.name}`);
       traitor.send(`Your mission: ${mission.task}`);
+      traitor.send(`PS: ${mission.tip}`);
     } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
        console.log(err);
