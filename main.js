@@ -32,7 +32,7 @@ client.on('message', message => {
        const traitor = crew[getRandomInt(crew.length)];
        const mission = getRandomTask(treachery.scenarios);
 
-       let session = new Session(crew, traitor, mission);
+       let session = new Session(crew, traitor, mission, message.channel);
        allSessions.set(chanID, session);
 
        message.reply('There\'s a traitor in your midst...');
@@ -64,7 +64,7 @@ client.on('message', message => {
       const traitor = member;
       const mission = getRandomTask(treachery.scenarios);
 
-      let session = new Session([], traitor, mission);
+      let session = new Session([], traitor, mission, message.channel);
       allSessions.set(chanID, session);
 
       traitor.send("You are the traitor.");
@@ -89,6 +89,7 @@ client.on('message', message => {
        }
        message.channel.send(`The traitor was ${session.traitor.displayName}!`);
        message.channel.send(`Their task was: ${session.mission.task}`);
+       message.channel.send(`Mission Status: ${session.missionStatus}`);
     } catch (err) {
       message.channel.send("`Error: Can't do this in a DM channel.`");
       console.log(err);
@@ -109,6 +110,41 @@ client.on('message', message => {
     }
    }
 
+   //Traitor surrenders and rejoins the crew
+   if (message.content === '!surrender') {
+     try {
+       for (const session of allSessions.values()) {
+         if (message.author.id === session.traitor.user.id) {
+           message.channel.send(`Coward! You have surrendered.`);
+           session.textChan.send(`${session.traitor.displayName} has surrendered to rejoin the crew!`);
+         }
+       }
+     } catch (err) {
+       message.channel.send("`Oops, that's didn't work. :(`");
+       console.log(err);
+     }
+   }
+
+   //Traitor indicates success for their assigned task
+   if (message.content === '!success') {
+     try {
+       let foundTraitor = false;
+       for (const session of allSessions.values()) {
+         if (message.author.id === session.traitor.user.id) {
+           foundTraitor = true;
+           session.missionStatus = "Complete";
+           message.channel.send('Congratulations. You did it!');
+         }
+       }
+       if (foundTraitor === false) {
+         message.reply("You don't appear to be a traitor. Keep up the good work!");
+       }
+     } catch (err) {
+       message.channel.send("`Oops, that's didn't work. :(`");
+       console.log(err);
+     }
+   }
+
    // Displays the manual
    if (message.content === '!help'||message.content === '!rtfm') {
      message.channel.send(
@@ -119,27 +155,38 @@ client.on('message', message => {
        + '!reveal: Reveal who the traitor was.\n'
        + '!settraitor @<userName>: Make a player the traitor.\n'
        + '!clear: Clears all currently set traitors.\n'
+       + '-------DM Commands:--------\n'
+       + '!success: Marks the current task as complete for the traitor.\n'
+       + '!surrender: Give in and remove yourself as traitor.  Alerts the session text channel.'
        + '```'
      );
    }
 
    //Dump variables to console.  Deprecate after testing.
    if (message.content === '!dump') {
-     console.log('Current Channel members:');
-     console.log(initCrew(message));
-     console.log('Current scenarios:');
-     for (x in treachery.scenarios) {
-       var t = treachery.scenarios[x].name;
-       console.log(t);
+     try {
+       console.log('Current Channel members:');
+       console.log(initCrew(message));
+       console.log('Current scenarios:');
+       for (x in treachery.scenarios) {
+         var t = treachery.scenarios[x].name;
+         console.log(t);
+       }
+     } catch (e) {
+       console.log(e);
+     } finally {
+       console.log(allSessions);
      }
     }
  });
 
  class Session {
-   constructor (crew, traitor, mission){
+   constructor (crew, traitor, mission, textChan){
      this.crew = crew;
      this.traitor = traitor;
      this.mission = mission;
+     this.missionStatus = "Incomplete";
+     this.textChan = textChan;
    }
  }
 
