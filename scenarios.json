@@ -2,47 +2,47 @@
   "scenarios": [
     {
       "name":"Captain Phillips",
-      "task":"Steal and equip the Captain's uniform and ID badge, then successfully depart the sub."
+      "task":"Steal and equip the Captain's uniform and ID badge, then successfully depart the sub.",
       "tip":"I Don't know how to complete this task: Captain Phillips"
     },
     {
       "name":"A Sinking Feeling",
-      "task":"Disable all the main floor pumps and the airlock, then find a way to scuttle the sub.\nEscape."
+      "task":"Disable all the main floor pumps and the airlock, then find a way to scuttle the sub.\nEscape.",
       "tip":"I Don't know how to complete this task: A Sinking Feeling"
     },
     {
       "name":"Darkness, Imprisoning Me",
-      "task":"Disable at least 50% of the ships batteries. Cause a reactor meltdown and depart the sub... *With* the surplus stock of uranium."
+      "task":"Disable at least 50% of the ships batteries. Cause a reactor meltdown and depart the sub... *With* the surplus stock of uranium.",
       "tip":"I Don't know how to complete this task: Darkness, etc. etc."
     },
     {
       "name":"Breaking Bad",
-      "task":"Cause the Security Officer to experience psychosis by injecting them with Methamphetamines.\nPlant some drugs on them and escape via the diving bell."
+      "task":"Cause the Security Officer to experience psychosis by injecting them with Methamphetamines.\nPlant some drugs on them and escape via the diving bell.",
       "tip":"I Don't know how to complete this task, Breaking Wheh!?"
     },
     {
       "name":"The Cask of Amontillado",
-      "task":"Handcuff another crew member inside a ballast tank, then successfully weld the hatch closed.\nYou win if they drown before they are discovered."
+      "task":"Handcuff another crew member inside a ballast tank, then successfully weld the hatch closed.\nYou win if they drown before they are discovered.",
       "tip":"I Don't know how to complete this task: Cask of Armadillo"
     },
     {
       "name":"Houston We've Had A Problem",
-      "task":"Cause an explosion that destroys the ship's oxygen generator and then successfully return to the station you left from."
+      "task":"Cause an explosion that destroys the ship's oxygen generator and then successfully return to the station you left from.",
       "tip":"I Don't know how to complete this task: Houston somethings fucky"
     },
     {
       "name":"MURMAIDER",
-      "task":"Murder everyone in the crew in a unique fashion, then join the creatures beneath the sea."
+      "task":"Murder everyone in the crew in a unique fashion, then join the creatures beneath the sea.",
       "tip":"Live there... Die.."
     },
     {
       "name":"World Disarmament Conference",
-      "task":"Remove every (lethal) weapon from the sub, then handcuff everyone else.\nStun and grab, then move cuffs to their inventory and click the bar above the item to equip it to them ;)"
+      "task":"Remove every (lethal) weapon from the sub, then handcuff everyone else.\nStun and grab, then move cuffs to their inventory and click the bar above the item to equip it to them ;)",
       "tip":"I Don't know how to complete this task"
     },
     {
       "name":"Interspacial Weapons Deals",
-      "task":"Smuggle a shipment of at least 20 fuel rods from the sub to a station."
+      "task":"Smuggle a shipment of at least 20 fuel rods from the sub to a station.",
       "tip":"I Don't know how to complete this task: Why is fuel a weapon deal?"
     }
   ]
