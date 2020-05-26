@@ -4,7 +4,7 @@ const client = new Discord.Client();
 const auth = require('./token.json');
 const token = auth.token;
 
-const treachery = require('./scenarios.json');
+const scenarios = require('./scenarios.json');
 let allSessions = new Map();
 
 //IMPORTANT: Comment out this line before Heroku deployment:
@@ -30,19 +30,19 @@ client.on('message', message => {
        const chanID = message.member.voice.channel.id;
        const crew = initCrew(message);
        const traitor = crew[getRandomInt(crew.length)];
-       const mission = getRandomTask(treachery.scenarios);
+       const mission = getRandomMission(scenarios);
 
        let session = new Session(crew, traitor, mission, message.channel);
        allSessions.set(chanID, session);
 
        message.reply('There\'s a traitor in your midst...');
        traitor.send("You are the traitor.");
-       traitor.send(`Commence operation: ${mission.name}`);
-       traitor.send(`Your mission: ${mission.task}`);
-       traitor.send(`PS: ${mission.tip}`);
+       traitor.send(`Commence operation: ${mission.currentTask.name}`);
+       traitor.send(`Your mission: ${mission.currentTask.task}`);
+       traitor.send(`PS: ${mission.currentTask.tip}`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
-       console.log(err);S
+       console.log(err);
      }
    }
 
@@ -63,7 +63,7 @@ client.on('message', message => {
       }
       const chanID = message.member.voice.channel.id;
       const traitor = member;
-      const mission = getRandomTask(treachery.scenarios);
+      const mission = getRandomMission(treachery.scenarios);
 
       let session = new Session([], traitor, mission, message.channel);
       allSessions.set(chanID, session);
@@ -90,7 +90,7 @@ client.on('message', message => {
          return message.channel.send('Nobody is the traitor...\n\nYet...');
        }
        message.channel.send(`The traitor was ${session.traitor.displayName}!`);
-       message.channel.send(`Their task was: ${session.mission.task}`);
+       message.channel.send(`Their task was: ${session.mission.currentTask.task}`);
        message.channel.send(`Mission Status: ${session.missionStatus}`);
     } catch (err) {
       message.channel.send("`Error: Can't do this in a DM channel.`");
@@ -115,10 +115,15 @@ client.on('message', message => {
    //Traitor surrenders and rejoins the crew
    if (message.content === '!surrender') {
      try {
+       let foundTraitor = false;
        for (const session of allSessions.values()) {
          if (message.author.id === session.traitor.user.id) {
+           foundTraitor = true;
            message.channel.send(`Coward! You have surrendered.`);
            session.textChan.send(`${session.traitor.displayName} has surrendered to rejoin the crew!`);
+         }
+         if (foundTraitor === false) {
+           message.reply("You don't appear to be a traitor. Keep up the good work!");
          }
        }
      } catch (err) {
@@ -134,8 +139,12 @@ client.on('message', message => {
        for (const session of allSessions.values()) {
          if (message.author.id === session.traitor.user.id) {
            foundTraitor = true;
-           session.missionStatus = "Complete";
-           message.channel.send('Congratulations. You did it!');
+           message.channel.send(`Congratulations. You did it!`);
+           session.mission.nextTask();
+           message.channel.send(`Here's your next assignment:\n` +
+           `Commence operation: ${session.mission.currentTask.name}\n` +
+           `Your misison: ${session.mission.currentTask.task}\n` +
+           `P.S. - ${session.mission.currentTask.tip}`);
          }
        }
        if (foundTraitor === false) {
@@ -170,10 +179,7 @@ client.on('message', message => {
        console.log('Current Channel members:');
        console.log(initCrew(message));
        console.log('Current scenarios:');
-       for (x in treachery.scenarios) {
-         var t = treachery.scenarios[x].name;
-         console.log(t);
-       }
+       console.log(scenarios.majorTasks);
      } catch (e) {
        console.log(e);
      } finally {
@@ -182,15 +188,26 @@ client.on('message', message => {
     }
  });
 
- class Session {
+class Session {
    constructor (crew, traitor, mission, textChan){
      this.crew = crew;
      this.traitor = traitor;
      this.mission = mission;
-     this.missionStatus = "Incomplete";
      this.textChan = textChan;
    }
  }
+
+class Mission {
+  constructor (minor1, minor2, major) {
+    this.tasks = [minor1, minor2, major];
+    this.currentTask = this.tasks[0];
+  }
+  nextTask() {
+    if (this.tasks.indexOf(this.currentTask) < 2) {
+      this.currentTask = this.tasks[this.tasks.indexOf(this.currentTask)+1];
+    }
+  }
+}
 
 //Generate an integer between 0 and max, exclusive of max
 function getRandomInt(max) {
@@ -209,7 +226,10 @@ function initCrew(message){
 }
 
 //Pick a scenario at Random
-function getRandomTask(scenarios) {
-  var task = scenarios[getRandomInt(scenarios.length)];
-  return task;
+function getRandomMission(scenarios) {
+  const mainTask = scenarios.majorTasks[getRandomInt(scenarios.majorTasks.length)];
+  const minorTask = scenarios.minorTasks[getRandomInt(scenarios.minorTasks.length)];
+  const mischiefTask = scenarios.mischiefTasks[getRandomInt(scenarios.mischiefTasks.length)];
+  const mission = new Mission(mischiefTask, minorTask, mainTask);
+  return mission;
 }

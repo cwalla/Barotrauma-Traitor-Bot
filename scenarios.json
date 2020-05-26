@@ -50,47 +50,57 @@
   "minorTasks":
   [
     {
-      "name":"<Minor Name 1>",
-      "task":"<Minor Task 1>"
+      "name":"Flame, Dear Flame...",
+      "task":"Deconstruct all the fire extinguishers. They are evil, and must be destroyed.",
+      "tip":"Nothing can come between us, dear flame."
     },
     {
-      "name":"<Minor Name 2>",
-      "task":"<Minor Task 2>"
+      "name":"Inhalant Abuse",
+      "task":"Swap the oxygen tanks in the pressure suits for Acetylene.",
+      "tip":"You need to put the suit on to swap the tanks.  Be quick!"
     },
     {
-      "name":"<Minor Name 3>",
-      "task":"<Minor Task 3>"
+      "name":"Backup Plan",
+      "task":"Find a weapon.  Stash it in the loose vent in the prisoner cell.\nJust in case...",
+      "tip":"You'll need a crowbar to get into the armory.\nAlso I literally don't know if this is possible yet - If you can't do it, just skip it."
     },
     {
-      "name":"<Minor Name 4>",
-      "task":"<Minor Task 4>"
+      "name":"Grab a Can of 'Splode!",
+      "task":"Randomly swap welding torch tanks for Oxygen tanks.",
+      "tip":"I recommend keeping your distance after that..."
     },
     {
-      "name":"<Minor Name 5>",
-      "task":"<Minor Task 5>"
+      "name":"A Scanner, Darkly",
+      "task":"You need a fix... Bad. Get into the med bay and take as much opium or morphine as you can carry.\nFind a quiet place to chase the dragon.",
+      "tip":"Feigning an injury seems to be a good way to get those sweet, sweet drugs. Otherwise, we're gonna need a crowbar..."
     }
   ],
   "mischiefTasks":
   [
     {
-      "name":"<Mischief Name 1>",
-      "task":"<Mischief Task 1>"
+      "name":"Honky Tonk",
+      "task":"Find the horn.  It should be around here somewhere...\nLet it's magestic tones be the clarion call that summons the Deep Ones!",
+      "tip":"Try in one of the ballast tanks. I think security threw it down there."
     },
     {
-      "name":"<Mischief Name 2>",
-      "task":"<Mischief Task 2>"
+      "name":"It's Five o'clock Somewhere",
+      "task":"You need a fuckin' beer.  But we're underwater, so... What's the next best thing?\nEthanol is grain alcohol, right..? Close enough.",
+      "tip":"Doc keeps a few bottles in the medicine cabinet."
     },
     {
-      "name":"<Mischief Name 3>",
-      "task":"<Mischief Task 3>"
+      "name":"I want my Mummy",
+      "task":"Bandage someone who doesn't need it. We gotta make this guy look like King Tut! They can thank you later.",
+      "tip":"Check wall supplies for bandages.\nSelect the target and press 'H', then drag the bandages to their body."
     },
     {
-      "name":"<Mischief Name 4>",
-      "task":"<Mischief Task 4>"
+      "name":"Tool Factory",
+      "task":"Deconstruct all the screwdrivers you can find.\nIf they needed them, they wouldn't leave them lying around, right?",
+      "tip":"I think I saw a bunch of these in the engine room. Engines don't need screwdrivers! Idiots."
     },
     {
-      "name":"<Mischief Name 5>",
-      "task":"<Mischief Task 5>"
+      "name":"Pew Pew Pew!",
+      "task":"I love the smell of coilgun in the morning. Let's blow off some steam!\nEmpty half a clip into the abyss. For no reason.",
+      "tip":"'I swear captain, I saw something move out there! Huh... It was there a minute ago...';)"
     }
   ]
 }
