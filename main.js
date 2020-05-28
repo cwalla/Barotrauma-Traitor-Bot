@@ -6,6 +6,8 @@ const token = auth.token;
 
 const scenarios = require('./scenarios.json');
 let allSessions = new Map();
+const PASS = ":white_check_mark:";
+const FAIL = ":x:";
 
 //IMPORTANT: Comment out this line before Heroku deployment:
 client.login(token);
@@ -89,9 +91,9 @@ client.on('message', message => {
        if (typeof(session) === 'undefined') {
          return message.channel.send('Nobody is the traitor...\n\nYet...');
        }
-       message.channel.send(`The traitor was ${session.traitor.displayName}!`);
-       message.channel.send(`Their task was: ${session.mission.currentTask.task}`);
-       message.channel.send(`Mission Status: ${session.missionStatus}`);
+       message.channel.send(`The traitor was ${session.traitor.displayName}!\n` +
+         `Their task was: ${session.mission.currentTask.task}\n` +
+         `Mission Complete: ${session.mission.currentTask.complete}`);
     } catch (err) {
       message.channel.send("`Error: Can't do this in a DM channel.`");
       console.log(err);
@@ -140,6 +142,7 @@ client.on('message', message => {
          if (message.author.id === session.traitor.user.id) {
            foundTraitor = true;
            message.channel.send(`Congratulations. You did it!`);
+           session.mission.currentTask.complete = true;
            session.mission.nextTask();
            message.channel.send(`Here's your next assignment:\n` +
            `Commence operation: ${session.mission.currentTask.name}\n` +
