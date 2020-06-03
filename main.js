@@ -32,7 +32,7 @@ client.on('message', message => {
        const chanID = message.member.voice.channel.id;
        const session = new Session(message);
        allSessions.set(chanID, session);
-       session.messageTraitor();
+       session.initTraitor();
        message.reply(`There's a traitor in your midst...`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
@@ -58,7 +58,7 @@ client.on('message', message => {
       const chanID = message.member.voice.channel.id;
       const session = new Session(message, member);
       allSessions.set(chanID, session);
-      session.messageTraitor();
+      session.initTraitor();
     } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
        console.log(err);
@@ -128,11 +128,8 @@ client.on('message', message => {
            foundTraitor = true;
            session.mission.currentTask.complete = true;
            session.mission.nextTask();
-           message.channel.send(`Congratulations. You did it!\n` +
-           `Here's your next assignment:\n` +
-           `Commence operation: ${session.mission.currentTask.name}\n` +
-           `Your misison: ${session.mission.currentTask.task}\n` +
-           `P.S. - ${session.mission.currentTask.tip}`);
+           message.channel.send(`Congratulations. Here's your next assignment:`);
+           session.messageTraitor();
          }
        }
        if (foundTraitor === false) {
@@ -184,10 +181,13 @@ class Session {
      this.textChan = message.channel;
    }
    messageTraitor() {
-     this.traitor.send(`You are the traitor.\n` +
-     `**Commence operation:** ${this.mission.currentTask.name}\n` +
+     this.traitor.send(`**Commence operation:** ${this.mission.currentTask.name}\n` +
      `**Your mission:** ${this.mission.currentTask.task}\n` +
      `**PS:** ${this.mission.currentTask.tip}`);
+   }
+   initTraitor() {
+          this.traitor.send(`You are the traitor.\n`);
+          this.messageTraitor();
    }
  }
 
