@@ -30,15 +30,10 @@ client.on('message', message => {
          return message.reply(`You aren't in any voice channels!` )
        }
        const chanID = message.member.voice.channel.id;
-       const crew = initCrew(message);
-       const traitor = crew[getRandomInt(crew.length)];
-       const mission = getRandomMission(scenarios);
-
-       let session = new Session(crew, traitor, mission, message.channel);
+       const session = new Session(message);
        allSessions.set(chanID, session);
-
-       message.reply(`There's a traitor in your midst...`);
        session.messageTraitor();
+       message.reply(`There's a traitor in your midst...`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
        console.log(err);
@@ -61,12 +56,8 @@ client.on('message', message => {
         return message.reply('You aren\'t in any voice channels!' );
       }
       const chanID = message.member.voice.channel.id;
-      const traitor = member;
-      const mission = getRandomMission(scenarios);
-
-      let session = new Session([], traitor, mission, message.channel);
+      const session = new Session(message, member);
       allSessions.set(chanID, session);
-
       session.messageTraitor();
     } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
@@ -186,11 +177,11 @@ client.on('message', message => {
  });
 
 class Session {
-   constructor (crew, traitor, mission, textChan){
-     this.crew = crew;
-     this.traitor = traitor;
-     this.mission = mission;
-     this.textChan = textChan;
+   constructor (message, traitor){
+     this.crew = initCrew(message);
+     this.traitor = traitor || this.crew[getRandomInt(this.crew.length)];
+     this.mission = getRandomMission(scenarios);
+     this.textChan = message.channel;
    }
    messageTraitor() {
      this.traitor.send(`You are the traitor.\n` +
