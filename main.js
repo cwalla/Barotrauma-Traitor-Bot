@@ -27,21 +27,13 @@ client.on('message', message => {
    if (message.content === '!rolltraitor'||message.content === '!roll') {
      try {
        if (!message.member.voice.channel) {
-         return message.reply('You aren\'t in any voice channels!' )
+         return message.reply(`You aren't in any voice channels!` )
        }
        const chanID = message.member.voice.channel.id;
-       const crew = initCrew(message);
-       const traitor = crew[getRandomInt(crew.length)];
-       const mission = getRandomMission(scenarios);
-
-       let session = new Session(crew, traitor, mission, message.channel);
+       const session = new Session(message);
        allSessions.set(chanID, session);
-
-       message.reply('There\'s a traitor in your midst...');
-       traitor.send("You are the traitor.");
-       traitor.send(`Commence operation: ${mission.currentTask.name}`);
-       traitor.send(`Your mission: ${mission.currentTask.task}`);
-       traitor.send(`PS: ${mission.currentTask.tip}`);
+       session.initTraitor();
+       message.reply(`There's a traitor in your midst...`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
        console.log(err);
@@ -57,23 +49,16 @@ client.on('message', message => {
           '`!settraitor @<userName>`');
         }
       if (member.user.bot) {
-        return message.channel.send('"Hello, me...  Meet the *real* me!"\n' +
-        '`Hint: Bots cannot be traitors.`');
+        return message.channel.send(`"Hello, me...  Meet the *real* me!\n` +
+        `\`Hint: Bots cannot be traitors.\``);
       }
       if (!message.member.voice.channel) {
         return message.reply('You aren\'t in any voice channels!' );
       }
       const chanID = message.member.voice.channel.id;
-      const traitor = member;
-      const mission = getRandomMission(treachery.scenarios);
-
-      let session = new Session([], traitor, mission, message.channel);
+      const session = new Session(message, member);
       allSessions.set(chanID, session);
-
-      traitor.send("You are the traitor.");
-      traitor.send(`Commence operation: ${mission.name}`);
-      traitor.send(`Your mission: ${mission.task}`);
-      traitor.send(`PS: ${mission.tip}`);
+      session.initTraitor();
     } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
        console.log(err);
@@ -125,11 +110,11 @@ client.on('message', message => {
            session.textChan.send(`${session.traitor.displayName} has surrendered to rejoin the crew!`);
          }
          if (foundTraitor === false) {
-           message.reply("You don't appear to be a traitor. Keep up the good work!");
+           message.reply(`You don't appear to be a traitor. Keep up the good work!`);
          }
        }
      } catch (err) {
-       message.channel.send("`Oops, that's didn't work. :(`");
+       message.channel.send(`\`Oops, that's didn't work. :(\``);
        console.log(err);
      }
    }
@@ -141,17 +126,14 @@ client.on('message', message => {
        for (const session of allSessions.values()) {
          if (message.author.id === session.traitor.user.id) {
            foundTraitor = true;
-           message.channel.send(`Congratulations. You did it!`);
            session.mission.currentTask.complete = true;
            session.mission.nextTask();
-           message.channel.send(`Here's your next assignment:\n` +
-           `Commence operation: ${session.mission.currentTask.name}\n` +
-           `Your misison: ${session.mission.currentTask.task}\n` +
-           `P.S. - ${session.mission.currentTask.tip}`);
+           message.channel.send(`Congratulations. Here's your next assignment:`);
+           session.messageTraitor();
          }
        }
        if (foundTraitor === false) {
-         message.reply("You don't appear to be a traitor. Keep up the good work!");
+         message.reply(`You don't appear to be a traitor. Keep up the good work!`);
        }
      } catch (err) {
        message.channel.send("`Oops, that's didn't work. :(`");
@@ -192,11 +174,20 @@ client.on('message', message => {
  });
 
 class Session {
-   constructor (crew, traitor, mission, textChan){
-     this.crew = crew;
-     this.traitor = traitor;
-     this.mission = mission;
-     this.textChan = textChan;
+   constructor (message, traitor){
+     this.crew = initCrew(message);
+     this.traitor = traitor || this.crew[getRandomInt(this.crew.length)];
+     this.mission = getRandomMission(scenarios);
+     this.textChan = message.channel;
+   }
+   messageTraitor() {
+     this.traitor.send(`**Commence operation:** ${this.mission.currentTask.name}\n` +
+     `**Your mission:** ${this.mission.currentTask.task}\n` +
+     `**PS:** ${this.mission.currentTask.tip}`);
+   }
+   initTraitor() {
+          this.traitor.send(`You are the traitor.\n`);
+          this.messageTraitor();
    }
  }
 
