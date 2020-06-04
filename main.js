@@ -76,7 +76,7 @@ client.on('message', message => {
        if (typeof(session) === 'undefined') {
          return message.channel.send('Nobody is the traitor...\n\nYet...');
        }
-       message.channel.send(`The traitor was *${session.traitor.displayName}**!\n` +
+       message.channel.send(`The traitor was **${session.traitor.displayName}**!\n` +
          `**Their mission was:**\n` +
          `${session.mission.getStatus()}`);
     } catch (err) {
