@@ -141,6 +141,27 @@ client.on('message', message => {
      }
    }
 
+   //Traitor indicates failure for their assigned task
+   if (message.content === '!failure' || message.content === '!fail') {
+     try {
+       let foundTraitor = false;
+       for (const session of allSessions.values()) {
+         if (message.author.id === session.traitor.user.id) {
+           foundTraitor = true;
+           session.mission.nextTask();
+           message.channel.send(`Disappointing... Here's your next assignment:`);
+           session.messageTraitor();
+         }
+       }
+       if (foundTraitor === false) {
+         message.reply(`You don't appear to be a traitor. Keep up the good work!`);
+       }
+     } catch (err) {
+       message.channel.send(`\`Oops, that's didn't work. :(\``);
+       console.log(err);
+     }
+   }
+
    // Displays the manual
    if (message.content === '!help'||message.content === '!rtfm') {
      message.channel.send(
