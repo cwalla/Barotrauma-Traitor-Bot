@@ -76,9 +76,9 @@ client.on('message', message => {
        if (typeof(session) === 'undefined') {
          return message.channel.send('Nobody is the traitor...\n\nYet...');
        }
-       message.channel.send(`The traitor was ${session.traitor.displayName}!\n` +
-         `Their task was: ${session.mission.currentTask.task}\n` +
-         `Mission Complete: ${session.mission.currentTask.complete}`);
+       message.channel.send(`The traitor was **${session.traitor.displayName}**!\n` +
+         `**Their mission was:**\n` +
+         `${session.mission.getStatus()}`);
     } catch (err) {
       message.channel.send("`Error: Can't do this in a DM channel.`");
       console.log(err);
@@ -221,6 +221,14 @@ class Mission {
     if (this.tasks.indexOf(this.currentTask) < 2) {
       this.currentTask = this.tasks[this.tasks.indexOf(this.currentTask)+1];
     }
+  }
+  getStatus() {
+    let report = '';
+    for (const t of this.tasks) {
+      const status = t.complete ? PASS : FAIL;
+      report = report.concat(status, ' - ', t.task, '\n');
+    }
+    return report;
   }
 }
 
