@@ -211,11 +211,11 @@ class Session {
           this.traitor.send(`You are the traitor.\n`);
           this.messageTraitor();
    }
-   assigntasks() {
+   //Generate randomized mischief tasks for all regular crew members
+   assignTasks() {
        for (const x in this.crew) {
          if (this.crew[x].displayName !== this.traitor.displayName) {
            const task = scenarios.mischiefTasks[getRandomInt(scenarios.mischiefTasks.length)];
-           console.log(this.crew[x]);
            this.crew[x].send(`You are __not__ the traitor.\n` +
              `However... I do have a job for you: ${task.name}\n` +
              `**Your mission:** ${task.task}\n` +
