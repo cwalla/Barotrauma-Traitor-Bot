@@ -5,7 +5,7 @@ Link to invite this bot to server: https://discordapp.com/api/oauth2/authorize?c
 
 IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should be to the inDev branch.  Please do not commit directly to Master.
 
-##Command Syntax
+## Command Syntax
 
 * !ping: Check if Barry is online.
 * !rolltraitor: Randomly select a traitor.
@@ -18,7 +18,7 @@ IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should
 * !surrender: Give in and remove yourself as traitor.  Alerts the session text channel
 
 
-##How to install dependencies / Set up dev environment
+## How to install dependencies / Set up dev environment
 
 * Install Node.js 12.16.3 from https://nodejs.org/en/
   * Allow it to install dependencies, as you will also need npm and the ability to compile certain modules
@@ -39,7 +39,7 @@ IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should
 
 ------------------------------------------------------------------------------
 
-##Using Git
+## Using Git
 
 	* Open a Powershell CLI:
 		* Run choco install -y git
