@@ -212,7 +212,6 @@ class Session {
           this.messageTraitor();
    }
    assigntasks() {
-     if (this.crew) {
        for (const x in this.crew) {
          if (this.crew[x].displayName !== this.traitor.displayName) {
            const task = scenarios.mischiefTasks[getRandomInt(scenarios.mischiefTasks.length)];
@@ -221,7 +220,6 @@ class Session {
              `However... I do have a job for you: ${task.name}\n` +
              `**Your mission:** ${task.task}\n` +
              `**PS:** ${task.tip}`);
-         }
        }
      }
    }
