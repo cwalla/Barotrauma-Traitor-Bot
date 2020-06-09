@@ -9,13 +9,13 @@ IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should
 
     !ping: Check if Barry is online.
     !rolltraitor: Randomly select a traitor.
-		!reveal: Reveal who the traitor was.
-		!settraitor @<userName>: Make a player the traitor.
-		!clear: Clears all currently set traitors.
-		--------DM Commands:--------
-		!success: Marks the current task as complete for the traitor and provides the next task.
-		!failure | !fail: Marks the current traitor task incomplete and provides the next task.
-		!surrender: Give in and remove yourself as traitor.  Alerts the session text channel
+    !reveal: Reveal who the traitor was.
+    !settraitor @<userName>: Make a player the traitor.
+    !clear: Clears all currently set traitors.
+    --------DM Commands:--------
+    !success: Marks the current task as complete for the traitor and provides the next task.
+    !failure | !fail: Marks the current traitor task incomplete and provides the next task.
+    !surrender: Give in and remove yourself as traitor.  Alerts the session text channel
 
 
 ## How to install dependencies / Set up dev environment
@@ -53,7 +53,9 @@ IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should
 		* Run git clone https://github.com/cwalla/Barotrauma-Traitor-Bot.git
 
 To configure Atom editor to interface with your Git install:
+
     * git config --global core.editor "atom --wait"
 
 If using Notepad++ with Git:
+
     * $ git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
