@@ -33,6 +33,7 @@ client.on('message', message => {
        const session = new Session(message);
        allSessions.set(chanID, session);
        session.initTraitor();
+       session.assigntasks();
        message.reply(`There's a traitor in your midst...`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
@@ -209,6 +210,18 @@ class Session {
    initTraitor() {
           this.traitor.send(`You are the traitor.\n`);
           this.messageTraitor();
+   }
+   //Generate randomized mischief tasks for all regular crew members
+   assignTasks() {
+       for (const x in this.crew) {
+         if (this.crew[x].displayName !== this.traitor.displayName) {
+           const task = scenarios.mischiefTasks[getRandomInt(scenarios.mischiefTasks.length)];
+           this.crew[x].send(`You are __not__ the traitor.\n` +
+             `However... I do have a job for you: ${task.name}\n` +
+             `**Your mission:** ${task.task}\n` +
+             `**PS:** ${task.tip}`);
+       }
+     }
    }
  }
 
