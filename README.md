@@ -41,21 +41,21 @@ IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should
 
 ## Using Git
 
-	* Open a Powershell CLI:
-		* Run choco install -y git
-	* Setup Git:
-		* Run git config user.name "your user name"
-		* Run git config --global user.email "your commit email"
-			* To use an anonymous email, see https://github.com/settings/emails for your gitHub no-reply address
-		* Run git config --global credential.helper wincred
-			* This will cache your gitHub credentials for commits
-	* Clone the Repo:
-		* Run git clone https://github.com/cwalla/Barotrauma-Traitor-Bot.git
+* Open a Powershell CLI:
+  * Run `choco install -y git`
+  * Setup Git:
+    * Run `git config user.name "your user name"`
+    * Run `git config --global user.email "your commit email"`
+    * To use an anonymous email, see https://github.com/settings/emails for your gitHub no-reply address
+    * Run `git config --global credential.helper wincred`
+      * This will cache your gitHub credentials for commits
+    * Clone the Repo:
+    * Run `git clone https://github.com/cwalla/Barotrauma-Traitor-Bot.git`
 
 To configure Atom editor to interface with your Git install:
 
-    * git config --global core.editor "atom --wait"
+    `git config --global core.editor "atom --wait"`
 
 If using Notepad++ with Git:
 
-    * $ git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+    `git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"`
