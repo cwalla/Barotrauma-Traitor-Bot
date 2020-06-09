@@ -53,9 +53,7 @@ IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should
 		* Run git clone https://github.com/cwalla/Barotrauma-Traitor-Bot.git
 
 To configure Atom editor to interface with your Git install:
-
-		* git config --global core.editor "atom --wait"
+    * git config --global core.editor "atom --wait"
 
 If using Notepad++ with Git:
-
-		* $ git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
+    * $ git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
