@@ -7,22 +7,22 @@ IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should
 
 ## Command Syntax
 
-* !ping: Check if Barry is online.
-* !rolltraitor: Randomly select a traitor.
-* !reveal: Reveal who the traitor was.
-* !settraitor @<userName>: Make a player the traitor.
-* !clear: Clears all currently set traitors.\n
---------DM Commands:--------
-* !success: Marks the current task as complete for the traitor and provides the next task.
-* !failure | !fail: Marks the current traitor task incomplete and provides the next task.
-* !surrender: Give in and remove yourself as traitor.  Alerts the session text channel
+    !ping: Check if Barry is online.
+    !rolltraitor: Randomly select a traitor.
+		!reveal: Reveal who the traitor was.
+		!settraitor @<userName>: Make a player the traitor.
+		!clear: Clears all currently set traitors.
+		--------DM Commands:--------
+		!success: Marks the current task as complete for the traitor and provides the next task.
+		!failure | !fail: Marks the current traitor task incomplete and provides the next task.
+		!surrender: Give in and remove yourself as traitor.  Alerts the session text channel
 
 
 ## How to install dependencies / Set up dev environment
 
 * Install Node.js 12.16.3 from https://nodejs.org/en/
   * Allow it to install dependencies, as you will also need npm and the ability to compile certain modules
-	* The full install includes chocolatey, which can be used to install Git later
+	* The full install includes Chocolatey, which can be used to install Git later
 	* This will also add npm to the system path
 	* Open a powershell prompt
 	* Change the execution policy for powershell to allow scripts:
@@ -32,10 +32,10 @@ IMPORTANT: The master branch is set up to auto-deploy to Heroku.  All PRs should
 * Run npm install discord.js
 * Run npm install nodemon --save-dev
 
- You should now be able to start the bot running by running "npm run dev" from a powershell prompt in the root of your local repo
- Nodemon will re-load the bot if it detects the code has been modified and saved
- Note that the master branch version of the bot will NOT run locally because it uses environment variables that are set up in Heroku
- For local testing, use the inDev branch, or check the comments in main.js for which lines to comment out/uncomment
+ You should now be able to start the bot running by running "npm run dev" from a powershell prompt in the root of your local repo.
+ Nodemon will re-load the bot if it detects the code has been modified and saved.
+ Note that the master branch version of the bot will NOT run locally because it uses environment variables that are set up in Heroku.
+ For local testing, use the inDev branch, or check the comments in main.js for which lines to comment out/uncomment.
 
 ------------------------------------------------------------------------------
 
