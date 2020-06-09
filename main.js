@@ -165,16 +165,16 @@ client.on('message', message => {
 
    // Displays the manual
    if (message.content === '!help'||message.content === '!rtfm') {
-     message.channel.send(
-       'Baro Bot Commands:\n' + '\n'
-       + '```\n' + '\n'
+     message.channel.send('Baro Bot Commands:\n'
+       + '```'
        + '!ping: Check if Barry is online.\n'
        + '!rolltraitor: Randomly select a traitor.\n'
        + '!reveal: Reveal who the traitor was.\n'
        + '!settraitor @<userName>: Make a player the traitor.\n'
        + '!clear: Clears all currently set traitors.\n'
-       + '-------DM Commands:--------\n'
-       + '!success: Marks the current task as complete for the traitor.\n'
+       + '--------DM Commands:--------\n'
+       + '!success: Marks the current traitor task complete and provides the next task.\n'
+       + '!failure | !fail: Marks the current traitor task incomplete and provides the next task.\n'
        + '!surrender: Give in and remove yourself as traitor.  Alerts the session text channel.'
        + '```'
      );
