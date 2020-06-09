@@ -11,7 +11,7 @@ Command Syntax:
 * !rolltraitor: Randomly select a traitor.
 * !reveal: Reveal who the traitor was.
 * !settraitor @<userName>: Make a player the traitor.
-* !clear: Clears all currently set traitors.
+* !clear: Clears all currently set traitors.\n
 --------DM Commands:--------
 * !success: Marks the current task as complete for the traitor and provides the next task.
 * !failure | !fail: Marks the current traitor task incomplete and provides the next task.
