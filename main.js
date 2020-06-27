@@ -33,7 +33,7 @@ client.on('message', message => {
        const session = new Session(message);
        allSessions.set(chanID, session);
        session.initTraitor();
-       session.assigntasks();
+       session.assignTasks();
        message.reply(`There's a traitor in your midst...`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
@@ -77,23 +77,31 @@ client.on('message', message => {
        if (typeof(session) === 'undefined') {
          return message.channel.send('Nobody is the traitor...\n\nYet...');
        }
-       message.channel.send(`The traitor was **${session.traitor.displayName}**!\n` +
-         `**Their mission was:**\n` +
-         `${session.mission.getStatus()}`);
+       if (session.traitor === `Surrendered`) {
+         message.channel.send(`The traitor was an ultimate failure!\n` +
+          `They decided to surrender!\n` +
+          `**Their mission was:**\n` +
+          `${session.mission.getStatus()}`);
+       } else {
+         message.channel.send(`The traitor was **${session.traitor.displayName}**!\n` +
+          `**Their mission was:**\n` +
+          `${session.mission.getStatus()}`);
+       }
+
     } catch (err) {
       message.channel.send("`Error: Can't do this in a DM channel.`");
       console.log(err);
     }
    }
 
-   //Clear all traitors
+   //Clear current session
    if (message.content === '!clear') {
      try {
        if (!message.member.voice.channel) {
          return message.reply('You aren\'t in any voice channels!' );
        }
        allSessions.delete(message.member.voice.channel.id);
-       message.channel.send('Traitors have been cleared.');
+       message.channel.send('Your session has been cleared.');
      } catch (err) {
       message.channel.send("`Error: Can't do this in a DM channel.`");
       console.log(err);
@@ -109,6 +117,7 @@ client.on('message', message => {
            foundTraitor = true;
            message.channel.send(`Coward! You have surrendered.`);
            session.textChan.send(`${session.traitor.displayName} has surrendered to rejoin the crew!`);
+           session.traitorSurrender();
          }
          if (foundTraitor === false) {
            message.reply(`You don't appear to be a traitor. Keep up the good work!`);
@@ -171,7 +180,7 @@ client.on('message', message => {
        + '!rolltraitor: Randomly select a traitor.\n'
        + '!reveal: Reveal who the traitor was.\n'
        + '!settraitor @<userName>: Make a player the traitor.\n'
-       + '!clear: Clears all currently set traitors.\n'
+       + '!clear: Clears your current session.\n'
        + '--------DM Commands:--------\n'
        + '!success: Marks the current traitor task complete and provides the next task.\n'
        + '!failure | !fail: Marks the current traitor task incomplete and provides the next task.\n'
@@ -210,6 +219,10 @@ class Session {
    initTraitor() {
           this.traitor.send(`You are the traitor.\n`);
           this.messageTraitor();
+   }
+   //remove the session's traitor
+   traitorSurrender() {
+      this.traitor = `Surrendered`;
    }
    //Generate randomized mischief tasks for all regular crew members
    assignTasks() {
