@@ -180,7 +180,7 @@ client.on('message', message => {
        + '!rolltraitor: Randomly select a traitor.\n'
        + '!reveal: Reveal who the traitor was.\n'
        + '!settraitor @<userName>: Make a player the traitor.\n'
-       + '!clear: Clears your current sessions.\n'
+       + '!clear: Clears your current session.\n'
        + '--------DM Commands:--------\n'
        + '!success: Marks the current traitor task complete and provides the next task.\n'
        + '!failure | !fail: Marks the current traitor task incomplete and provides the next task.\n'
