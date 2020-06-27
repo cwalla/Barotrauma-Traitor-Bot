@@ -45,8 +45,8 @@
     },
     {
       "name":"World Disarmament Conference",
-      "task":"Remove every (lethal) weapon from the sub, then handcuff everyone else.\nStun and grab, then move cuffs to their inventory and click the bar above the item to equip it to them ;)",
-      "tip":"I Don't know how to complete this task",
+      "task":"Remove every (lethal) weapon from the sub, then handcuff everyone else.",
+      "tip":"Stun and grab, then move cuffs to their inventory and click the bar above the item to equip it to them ;)",
       "complete":false
     },
     {
