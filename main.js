@@ -33,7 +33,7 @@ client.on('message', message => {
        const session = new Session(message);
        allSessions.set(chanID, session);
        session.initTraitor();
-       session.assigntasks();
+       session.assignTasks();
        message.reply(`There's a traitor in your midst...`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
@@ -77,7 +77,7 @@ client.on('message', message => {
        if (typeof(session) === 'undefined') {
          return message.channel.send('Nobody is the traitor...\n\nYet...');
        }
-       if (session.trator == `Surrendered`) {
+       if (session.traitor === `Surrendered`) {
          message.channel.send(`The traitor was an ultimate failure!\n` +
           `They decided to surrender!\n` +
           `**Their mission was:**\n` +
