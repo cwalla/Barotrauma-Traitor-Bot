@@ -6,7 +6,7 @@ let token;
 const PASS = ":white_check_mark:";
 const FAIL = ":x:";
 
-if (process.env.HEROKU) {
+if (process.env.HEROKU == 'TRUE') {
   console.log(`Heroku detected.`);
   token = process.env.BOT_TOKEN;
 } else {
