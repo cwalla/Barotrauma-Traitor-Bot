@@ -1,20 +1,25 @@
 const Discord = require('discord.js');
-const client = new Discord.Client();
-//IMPORTANT: Comment out these two lines before Heroku deployment:
-const auth = require('./token.json');
-const token = auth.token;
-
 const scenarios = require('./scenarios.json');
+const client = new Discord.Client();
 let allSessions = new Map();
+let token;
 const PASS = ":white_check_mark:";
 const FAIL = ":x:";
 
-//IMPORTANT: Comment out this line before Heroku deployment:
+if (process.env.HEROKU) {
+  console.log(`Heroku detected.`);
+  token = process.env.BOT_TOKEN;
+} else {
+  console.log(`Heroku not detected.`);
+  const auth = require('./token.json');
+  token = auth.token;
+}
+
 client.login(token);
-//IMPORTANT: Uncomment this line for Heroku deployment:
-//client.login(process.env.BOT_TOKEN);
+
 client.on('ready', () => {
- console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Running Node version ${process.versions.node} on ${process.platform}`);
+  console.log(`Logged in as ${client.user.tag}!`);
  });
 
 //Event listener for command messages
