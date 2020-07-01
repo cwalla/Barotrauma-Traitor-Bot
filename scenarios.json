@@ -1,40 +1,125 @@
 {
-  "scenarios": [
+  "majorTasks":
+   [
     {
       "name":"Captain Phillips",
-      "task":"Steal and equip the Captain's uniform and ID badge, then successfully depart the sub."
+      "task":"Steal and equip the Captain's uniform and ID badge, then successfully depart the sub.",
+      "tip":"I Don't know how to complete this task: Captain Phillips",
+      "complete":false
     },
     {
       "name":"A Sinking Feeling",
-      "task":"Disable all the main floor pumps and the airlock, then find a way to scuttle the sub.\nEscape."
+      "task":"Disable all the main floor pumps and the airlock, then find a way to scuttle the sub.\nEscape.",
+      "tip":"I Don't know how to complete this task: A Sinking Feeling",
+      "complete":false
     },
     {
       "name":"Darkness, Imprisoning Me",
-      "task":"Disable at least 50% of the ships batteries. Cause a reactor meltdown and depart the sub... *With* the surplus stock of uranium."
+      "task":"Disable at least 50% of the ships batteries. Cause a reactor meltdown and depart the sub... *With* the surplus stock of uranium.",
+      "tip":"I Don't know how to complete this task: Darkness, etc. etc.",
+      "complete":false
     },
     {
       "name":"Breaking Bad",
-      "task":"Cause the Security Officer to experience psychosis by injecting them with Methamphetamines.\nPlant some drugs on them and escape via the diving bell."
+      "task":"Cause the Security Officer to experience psychosis by injecting them with Methamphetamines.\nPlant some drugs on them and escape via the diving bell.",
+      "tip":"I Don't know how to complete this task, Breaking Wheh!?",
+      "complete":false
     },
     {
       "name":"The Cask of Amontillado",
-      "task":"Handcuff another crew member inside a ballast tank, then successfully weld the hatch closed.\nYou win if they drown before they are discovered."
+      "task":"Handcuff another crew member inside a ballast tank, then successfully weld the hatch closed.\nYou win if they drown before they are discovered.",
+      "tip":"I Don't know how to complete this task: Cask of Armadillo",
+      "complete":false
     },
     {
       "name":"Houston We've Had A Problem",
-      "task":"Cause an explosion that destroys the ship's oxygen generator and then successfully return to the station you left from."
+      "task":"Cause an explosion that destroys the ship's oxygen generator and then successfully return to the station you left from.",
+      "tip":"I Don't know how to complete this task: Houston somethings fucky",
+      "complete":false
     },
     {
       "name":"MURMAIDER",
-      "task":"Murder everyone in the crew in a unique fashion, then join the creatures beneath the sea."
+      "task":"Murder everyone in the crew in a unique fashion, then join the creatures beneath the sea.",
+      "tip":"Live there... Die..",
+      "complete":false
     },
     {
       "name":"World Disarmament Conference",
-      "task":"Remove every (lethal) weapon from the sub, then handcuff everyone else.\nStun and grab, then move cuffs to their inventory and click the bar above the item to equip it to them ;)"
+      "task":"Remove every (lethal) weapon from the sub, then handcuff everyone else.",
+      "tip":"Stun and grab, then move cuffs to their inventory and click the bar above the item to equip it to them ;)",
+      "complete":false
     },
     {
       "name":"Interspacial Weapons Deals",
-      "task":"Smuggle a shipment of at least 20 fuel rods from the sub to a station."
+      "task":"Smuggle a shipment of at least 20 fuel rods from the sub to a station.",
+      "tip":"I Don't know how to complete this task: Why is fuel a weapon deal?",
+      "complete":false
+    }
+  ],
+  "minorTasks":
+  [
+    {
+      "name":"Flame, Dear Flame...",
+      "task":"Deconstruct all the fire extinguishers. They are evil, and must be destroyed.",
+      "tip":"Nothing can come between us, dear flame.",
+      "complete":false
+    },
+    {
+      "name":"Inhalant Abuse",
+      "task":"Swap the oxygen tanks in the pressure suits for Acetylene.",
+      "tip":"You need to put the suit on to swap the tanks.  Be quick!",
+      "complete":false
+    },
+    {
+      "name":"Backup Plan",
+      "task":"Find a weapon.  Stash it in the loose vent in the prisoner cell.\nJust in case...",
+      "tip":"You'll need a crowbar to get into the armory.\nAlso I literally don't know if this is possible yet - If you can't do it, just skip it.",
+      "complete":false
+    },
+    {
+      "name":"Grab a Can of 'Splode!",
+      "task":"Randomly swap welding torch tanks for Oxygen tanks.",
+      "tip":"I recommend keeping your distance after that...",
+      "complete":false
+    },
+    {
+      "name":"A Scanner, Darkly",
+      "task":"You need a fix... Bad. Get into the med bay and take as much opium or morphine as you can carry.\nFind a quiet place to chase the dragon.",
+      "tip":"Feigning an injury seems to be a good way to get those sweet, sweet drugs. Otherwise, we're gonna need a crowbar...",
+      "complete":false
+    }
+  ],
+  "mischiefTasks":
+  [
+    {
+      "name":"Honky Tonk",
+      "task":"Find the horn.  It should be around here somewhere...\nLet it's magestic tones be the clarion call that summons the Deep Ones!",
+      "tip":"Try in one of the ballast tanks. I think security threw it down there.",
+      "complete":false
+    },
+    {
+      "name":"It's Five o'clock Somewhere",
+      "task":"You need a fuckin' beer.  But we're underwater, so... What's the next best thing?\nEthanol is grain alcohol, right..? Close enough.",
+      "tip":"Doc keeps a few bottles in the medicine cabinet.",
+      "complete":false
+    },
+    {
+      "name":"I want my Mummy",
+      "task":"Bandage someone who doesn't need it. We gotta make this guy look like King Tut! They can thank you later.",
+      "tip":"Check wall supplies for bandages.\nSelect the target and press 'H', then drag the bandages to their body.",
+      "complete":false
+    },
+    {
+      "name":"Tool Factory",
+      "task":"Deconstruct all the screwdrivers you can find.\nIf they needed them, they wouldn't leave them lying around, right?",
+      "tip":"I think I saw a bunch of these in the engine room. Engines don't need screwdrivers! Idiots.",
+      "complete":false
+    },
+    {
+      "name":"Pew Pew Pew!",
+      "task":"I love the smell of coilgun in the morning. Let's blow off some steam!\nEmpty a clip into the abyss. For no reason.",
+      "tip":"'I swear captain, I saw something move out there! Huh... It was there a minute ago...';)",
+      "complete":false
     }
   ]
 }

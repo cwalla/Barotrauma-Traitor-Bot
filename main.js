@@ -1,133 +1,277 @@
 const Discord = require('discord.js');
+const scenarios = require('./scenarios.json');
 const client = new Discord.Client();
-//const auth = require('./token.json');
-//const token = auth.token;
-const treachery = require('./scenarios.json');
+let allSessions = new Map();
+let token;
+const PASS = ":white_check_mark:";
+const FAIL = ":x:";
 
-var traitor = '';
+if (process.env.HEROKU == 'TRUE') {
+  console.log(`Heroku detected.`);
+  token = process.env.BOT_TOKEN;
+} else {
+  console.log(`Heroku not detected.`);
+  const auth = require('./token.json');
+  token = auth.token;
+}
 
-client.login(process.env.BOT_TOKEN);
+client.login(token);
+
 client.on('ready', () => {
- console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Running Node version ${process.versions.node} on ${process.platform}`);
+  console.log(`Logged in as ${client.user.tag}!`);
  });
 
 //Event listener for command messages
- client.on('message', message => {
+client.on('message', message => {
    if (message.content === '!ping') {
      message.channel.send('Pong!');
    }
 
    //Set a random player as the traitor
    if (message.content === '!rolltraitor'||message.content === '!roll') {
-     if (!message.member.voice.channel) {
-       return message.reply('You aren\'t in any voice channels!' )
+     try {
+       if (!message.member.voice.channel) {
+         return message.reply(`You aren't in any voice channels!` )
+       }
+       const chanID = message.member.voice.channel.id;
+       const session = new Session(message);
+       allSessions.set(chanID, session);
+       session.initTraitor();
+       session.assignTasks();
+       message.reply(`There's a traitor in your midst...`);
+     } catch (err) {
+       message.channel.send("`Error: Can't do this in a DM channel.`");
+       console.log(err);
      }
-     const crew = init(message);
-     traitor = crew[getRandomInt(crew.length)];
-     message.reply('There\'s a traitor in your midst...');
-     traitor.send("You are the traitor.");
-
-     const orders = getRandomTask(treachery.scenarios);
-     traitor.send(`Commence operation: ${orders.name}`);
-     traitor.send(`Your mission: ${orders.task}`);
-     console.log(traitor.displayName);
    }
 
    //Set a specific player as the traitor
    if (message.content.startsWith("!settraitor")) {
-     const member = message.mentions.members.first();
-     if (!member) {
-      return message.reply(
-        'Specified user is not a member of the server.  Syntax:\n' +
-        '`!settraitor @<userName>`'
-      );
-    }
-     traitor = member;
-     message.channel.send(`Set ${traitor.displayName} as the traitor.`);
-     member.send("You are the traitor.");
-     const orders = getRandomTask(treachery.scenarios);
-     traitor.send(`Commence operation: ${orders.name}`);
-     traitor.send(`Your mission: ${orders.task}`);
-   }
-
-   //Set self as traitor for testing purposes
-   if (message.content === '!self') {
-     traitor = message.member;
-     message.author.send("You are the traitor.");
-
-     const orders = getRandomTask(treachery.scenarios);
-     traitor.send(`Commence operation: ${orders.name}`);
-     traitor.send(`Your mission: ${orders.task}`);
-     console.log(traitor.displayName);
+     try {
+       const member = message.mentions.members.first();
+       if (!member) {
+        return message.reply('Specified user is not a member of the server.  Syntax:\n' +
+          '`!settraitor @<userName>`');
+        }
+      if (member.user.bot) {
+        return message.channel.send(`"Hello, me...  Meet the *real* me!\n` +
+        `\`Hint: Bots cannot be traitors.\``);
+      }
+      if (!message.member.voice.channel) {
+        return message.reply('You aren\'t in any voice channels!' );
+      }
+      const chanID = message.member.voice.channel.id;
+      const session = new Session(message, member);
+      allSessions.set(chanID, session);
+      session.initTraitor();
+    } catch (err) {
+       message.channel.send("`Error: Can't do this in a DM channel.`");
+       console.log(err);
+      }
    }
 
    //Reveal who the traitor was
    if (message.content === '!reveal') {
-     //Unless traitor is not set, traitor should be an Object and not a String
-     if (typeof traitor === 'string') {
-       message.channel.send('Nobody is the traitor...\n\nYet...');
-       return;
-     }
-     message.channel.send(`The traitor was ${traitor.displayName}!`);
-   }
+     try {
+       if (!message.member.voice.channel) {
+         return message.reply('You aren\'t in any voice channels!' );
+       }
+       let session = allSessions.get(message.member.voice.channel.id);
 
-   //Clear all traitors
-   if (message.content === '!clear') {
-     traitor = "Nobody";
-     message.channel.send('Traitors have been cleared.');
-   }
+       if (typeof(session) === 'undefined') {
+         return message.channel.send('Nobody is the traitor...\n\nYet...');
+       }
+       if (session.traitor === `Surrendered`) {
+         message.channel.send(`The traitor was an ultimate failure!\n` +
+          `They decided to surrender!\n` +
+          `**Their mission was:**\n` +
+          `${session.mission.getStatus()}`);
+       } else {
+         message.channel.send(`The traitor was **${session.traitor.displayName}**!\n` +
+          `**Their mission was:**\n` +
+          `${session.mission.getStatus()}`);
+       }
 
-    //Initialize traitor array
-   if (message.content === '!init'){
-      if (!message.member.voice.channel) {
-        return message.reply('You aren\'t in any voice channels!' )
-      }
-      init(message);
+    } catch (err) {
+      message.channel.send("`Error: Can't do this in a DM channel.`");
+      console.log(err);
     }
+   }
+
+   //Clear current session
+   if (message.content === '!clear') {
+     try {
+       if (!message.member.voice.channel) {
+         return message.reply('You aren\'t in any voice channels!' );
+       }
+       allSessions.delete(message.member.voice.channel.id);
+       message.channel.send('Your session has been cleared.');
+     } catch (err) {
+      message.channel.send("`Error: Can't do this in a DM channel.`");
+      console.log(err);
+    }
+   }
+
+   //Traitor surrenders and rejoins the crew
+   if (message.content === '!surrender') {
+     try {
+       let foundTraitor = false;
+       for (const session of allSessions.values()) {
+         if (message.author.id === session.traitor.user.id) {
+           foundTraitor = true;
+           message.channel.send(`Coward! You have surrendered.`);
+           session.textChan.send(`${session.traitor.displayName} has surrendered to rejoin the crew!`);
+           session.traitorSurrender();
+         }
+         if (foundTraitor === false) {
+           message.reply(`You don't appear to be a traitor. Keep up the good work!`);
+         }
+       }
+     } catch (err) {
+       message.channel.send(`\`Oops, that's didn't work. :(\``);
+       console.log(err);
+     }
+   }
+
+   //Traitor indicates success for their assigned task
+   if (message.content === '!success') {
+     try {
+       let foundTraitor = false;
+       for (const session of allSessions.values()) {
+         if (message.author.id === session.traitor.user.id) {
+           foundTraitor = true;
+           session.mission.currentTask.complete = true;
+           session.mission.nextTask();
+           message.channel.send(`Congratulations. Here's your next assignment:`);
+           session.messageTraitor();
+         }
+       }
+       if (foundTraitor === false) {
+         message.reply(`You don't appear to be a traitor. Keep up the good work!`);
+       }
+     } catch (err) {
+       message.channel.send("`Oops, that's didn't work. :(`");
+       console.log(err);
+     }
+   }
+
+   //Traitor indicates failure for their assigned task
+   if (message.content === '!failure' || message.content === '!fail') {
+     try {
+       let foundTraitor = false;
+       for (const session of allSessions.values()) {
+         if (message.author.id === session.traitor.user.id) {
+           foundTraitor = true;
+           session.mission.nextTask();
+           message.channel.send(`Disappointing... Here's your next assignment:`);
+           session.messageTraitor();
+         }
+       }
+       if (foundTraitor === false) {
+         message.reply(`You don't appear to be a traitor. Keep up the good work!`);
+       }
+     } catch (err) {
+       message.channel.send(`\`Oops, that's didn't work. :(\``);
+       console.log(err);
+     }
+   }
 
    // Displays the manual
    if (message.content === '!help'||message.content === '!rtfm') {
-     message.channel.send(
-       'Baro Bot Commands:\n' + '\n'
-       + '```\n' + '\n'
+     message.channel.send('Baro Bot Commands:\n'
+       + '```'
        + '!ping: Check if Barry is online.\n'
        + '!rolltraitor: Randomly select a traitor.\n'
        + '!reveal: Reveal who the traitor was.\n'
        + '!settraitor @<userName>: Make a player the traitor.\n'
-       + '!self: Set yourself as the traitor.\n'
-       + '!clear: Clears all currently set traitors.\n'
+       + '!clear: Clears your current session.\n'
+       + '--------DM Commands:--------\n'
+       + '!success: Marks the current traitor task complete and provides the next task.\n'
+       + '!failure | !fail: Marks the current traitor task incomplete and provides the next task.\n'
+       + '!surrender: Give in and remove yourself as traitor.  Alerts the session text channel.'
        + '```'
      );
    }
 
    //Dump variables to console.  Deprecate after testing.
    if (message.content === '!dump') {
-     console.log('Is Traitor set?');
-     console.log(traitorSet);
-     console.log('Should be value of traitor:');
-     console.log(traitor);
-     console.log('Current Channel members:');
-     console.log(init(message));
-     console.log('Current scenarios:');
-     for (x in treachery.scenarios) {
-       var t = treachery.scenarios[x].name;
-       console.log(t);
+     try {
+       console.log('Current Channel members:');
+       console.log(initCrew(message));
+       console.log('Current scenarios:');
+       console.log(scenarios.majorTasks);
+     } catch (e) {
+       console.log(e);
+     } finally {
+       console.log(allSessions);
      }
-     console.log('A randomly selected task:');
-     var task = getRandomTask(treachery.scenarios);
-     console.log(task);
     }
  });
 
+class Session {
+   constructor (message, traitor){
+     this.crew = initCrew(message);
+     this.traitor = traitor || this.crew[getRandomInt(this.crew.length)];
+     this.mission = getRandomMission(scenarios);
+     this.textChan = message.channel;
+   }
+   messageTraitor() {
+     this.traitor.send(`**Commence operation:** ${this.mission.currentTask.name}\n` +
+     `**Your mission:** ${this.mission.currentTask.task}\n` +
+     `**PS:** ${this.mission.currentTask.tip}`);
+   }
+   initTraitor() {
+          this.traitor.send(`You are the traitor.\n`);
+          this.messageTraitor();
+   }
+   //remove the session's traitor
+   traitorSurrender() {
+      this.traitor = `Surrendered`;
+   }
+   //Generate randomized mischief tasks for all regular crew members
+   assignTasks() {
+       for (const x in this.crew) {
+         if (this.crew[x].displayName !== this.traitor.displayName) {
+           const task = scenarios.mischiefTasks[getRandomInt(scenarios.mischiefTasks.length)];
+           this.crew[x].send(`You are __not__ the traitor.\n` +
+             `However... I do have a job for you: ${task.name}\n` +
+             `**Your mission:** ${task.task}\n` +
+             `**PS:** ${task.tip}`);
+       }
+     }
+   }
+ }
+
+class Mission {
+  constructor (minor1, minor2, major) {
+    this.tasks = [minor1, minor2, major];
+    this.currentTask = this.tasks[0];
+  }
+  nextTask() {
+    if (this.tasks.indexOf(this.currentTask) < 2) {
+      this.currentTask = this.tasks[this.tasks.indexOf(this.currentTask)+1];
+    }
+  }
+  getStatus() {
+    let report = '';
+    for (const t of this.tasks) {
+      const status = t.complete ? PASS : FAIL;
+      report = report.concat(status, ' - ', t.task, '\n');
+    }
+    return report;
+  }
+}
+
 //Generate an integer between 0 and max, exclusive of max
- function getRandomInt(max) {
+function getRandomInt(max) {
    return Math.floor(Math.random() * Math.floor(max));
  }
 
  //Returns an array of voice channel members
-function init(message){
-  var chanUsers = [];
-  const vChan = message.member.voice.channel;
+function initCrew(message){
+  let chanUsers = [];
+  let vChan = message.member.voice.channel;
   for (const [memberID, member] of vChan.members) {
     message.channel.send(`Adding ${member.displayName}`);
     chanUsers.push(member);
@@ -136,7 +280,10 @@ function init(message){
 }
 
 //Pick a scenario at Random
-function getRandomTask(scenarios) {
-  var task = scenarios[getRandomInt(scenarios.length)];
-  return task;
+function getRandomMission(scenarios) {
+  const mainTask = scenarios.majorTasks[getRandomInt(scenarios.majorTasks.length)];
+  const minorTask = scenarios.minorTasks[getRandomInt(scenarios.minorTasks.length)];
+  const mischiefTask = scenarios.mischiefTasks[getRandomInt(scenarios.mischiefTasks.length)];
+  const mission = new Mission(mischiefTask, minorTask, mainTask);
+  return mission;
 }

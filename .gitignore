@@ -1,6 +1,9 @@
 #Discord token for the bot
 token.json
 
+#Backup folder
+backup/
+
 # Logs
 logs
 *.log
