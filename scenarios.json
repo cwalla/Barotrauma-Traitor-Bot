@@ -120,6 +120,12 @@
       "task":"I love the smell of coilgun in the morning. Let's blow off some steam!\nEmpty a clip into the abyss. For no reason.",
       "tip":"'I swear captain, I saw something move out there! Huh... It was there a minute ago...';)",
       "complete":false
+    },
+    {
+      "name":"Gone Clubbin'",
+      "task":"Pick a fight with another crew member over something.",
+      "tip":"Threaten to hit them with a wrench or a crowbar or something. Do it, they deserve it!",
+      "complete":false
     }
   ]
 }
