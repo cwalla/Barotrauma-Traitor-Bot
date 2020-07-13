@@ -87,6 +87,12 @@
       "task":"You need a fix... Bad. Get into the med bay and take as much opium or morphine as you can carry.\nFind a quiet place to chase the dragon.",
       "tip":"Feigning an injury seems to be a good way to get those sweet, sweet drugs. Otherwise, we're gonna need a crowbar...",
       "complete":false
+    },
+    {
+      "name":"Hypererotic Asphixiation",
+      "task":"Disconnect the oxygen generator from power",
+      "tip":"Screwdriver, Speed and Luck.. SHOULD be all you need.",
+      "complete":false
     }
   ],
   "mischiefTasks":
@@ -119,6 +125,30 @@
       "name":"Pew Pew Pew!",
       "task":"I love the smell of coilgun in the morning. Let's blow off some steam!\nEmpty a clip into the abyss. For no reason.",
       "tip":"'I swear captain, I saw something move out there! Huh... It was there a minute ago...';)",
+      "complete":false
+    },
+    {
+      "name":"Darkness, mildly inconveniencing me...",
+      "task":"Unwire 1 Light in 2 separate rooms.",
+      "tip":"Equip screwdriver and press E on the light. drag the power wire off of the power node.",
+      "complete":false
+    },
+	  {
+      "name":"Reckless Disregard.",
+      "task":"Argue 3 separate orders for at least 30 seconds each or 1 order for 3 minutes.",
+      "tip":"Consider rp reasons for refusing. Safety, Ethics, Fear, Religion, etc.",
+      "complete":false
+    },
+    {
+      "name":"A Matter of Opinion",
+      "task":"Make a disparaging witness report to the Security Team or Captain.",
+      "tip":"Wait until they do something incriminating OR just make shit up!",
+      "complete":false
+    },
+    {
+      "name":"Joe says it seems fine.",
+      "task":"Disable the reactor's auto control.",
+      "tip":"Dont worry. It SHOULD be fine.",
       "complete":false
     },
     {
