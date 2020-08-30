@@ -1,8 +1,11 @@
 const Discord = require('discord.js');
+const fs = require('fs');
 const scenarios = require('./scenarios.json');
 const client = new Discord.Client();
 let allSessions = new Map();
 let token;
+let stats;
+let logStatsEnabled = true;
 const PASS = ":white_check_mark:";
 const FAIL = ":x:";
 
@@ -20,13 +23,23 @@ client.login(token);
 client.on('ready', () => {
   console.log(`Running Node version ${process.versions.node} on ${process.platform}`);
   console.log(`Logged in as ${client.user.tag}!`);
+  fs.readFile('stats.json', (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    stats = JSON.parse(data);
+    console.log(stats);
+  });
  });
 
 //Event listener for command messages
 client.on('message', message => {
    if (message.content === '!ping') {
      message.channel.send('Pong!');
-   }
+     stats.pingCount++;
+     saveStats();
+ }
 
    //Set a random player as the traitor
    if (message.content === '!rolltraitor'||message.content === '!roll') {
@@ -92,7 +105,6 @@ client.on('message', message => {
           `**Their mission was:**\n` +
           `${session.mission.getStatus()}`);
        }
-
     } catch (err) {
       message.channel.send("`Error: Can't do this in a DM channel.`");
       console.log(err);
@@ -150,6 +162,7 @@ client.on('message', message => {
        if (foundTraitor === false) {
          message.reply(`You don't appear to be a traitor. Keep up the good work!`);
        }
+       stats.tasksCompleted++;
      } catch (err) {
        message.channel.send("`Oops, that's didn't work. :(`");
        console.log(err);
@@ -166,6 +179,8 @@ client.on('message', message => {
            session.mission.nextTask();
            message.channel.send(`Disappointing... Here's your next assignment:`);
            session.messageTraitor();
+           stats.tasksFailed++;
+           saveStats();
          }
        }
        if (foundTraitor === false) {
@@ -194,9 +209,25 @@ client.on('message', message => {
      );
    }
 
+   //Display user stats in channels
+   if (message.content === '!stats') {
+     if (!logStatsEnabled) {
+       message.channel.send(`*Note: logging is OFF - Updated stats will not be saved.*`);
+     }
+     message.channel.send(`Barotrauma Statistics:\n ${JSON.stringify(stats, null, 2)}`);
+   }
+
+   //Toggle stats logging for testing purposes
+   if (message.content === '!togglestats') {
+     logStatsEnabled = logStatsEnabled ? false : true;
+     message.reply(`Stats logging enabled: ${logStatsEnabled}`);
+     console.log(`Log Stats: ${logStatsEnabled}`);
+   }
+
    //Dump variables to console.  Deprecate after testing.
    if (message.content === '!dump') {
      try {
+       console.log(stats)
        console.log('Current Channel members:');
        console.log(initCrew(message));
        console.log('Current scenarios:');
@@ -224,10 +255,14 @@ class Session {
    initTraitor() {
           this.traitor.send(`You are the traitor.\n`);
           this.messageTraitor();
+          stats.traitorsRolled++;
+          saveStats();
    }
    //remove the session's traitor
    traitorSurrender() {
       this.traitor = `Surrendered`;
+      stats.surrenders++;
+      saveStats();
    }
    //Generate randomized mischief tasks for all regular crew members
    assignTasks() {
@@ -261,6 +296,16 @@ class Mission {
     }
     return report;
   }
+}
+
+//Save updated stats to a file
+function saveStats(){
+  if (!logStatsEnabled) return;
+  let data = JSON.stringify(stats, null, 2);
+  fs.writeFile('stats.json', data, (err) => {
+    if (err) console.log(err);
+    console.log('Data written to file');
+  });
 }
 
 //Generate an integer between 0 and max, exclusive of max
