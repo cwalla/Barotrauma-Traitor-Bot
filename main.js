@@ -23,7 +23,7 @@ client.login(token);
 client.on('ready', () => {
   console.log(`Running Node version ${process.versions.node} on ${process.platform}`);
   console.log(`Logged in as ${client.user.tag}!`);
-  fs.readFile('stats.json', (err, data) => {
+  fs.readFile('./stats/stats.json', (err, data) => {
     if (err) {
       console.log(err);
       return;
@@ -53,6 +53,7 @@ client.on('message', message => {
        session.initTraitor();
        session.assignTasks();
        message.reply(`There's a traitor in your midst...`);
+       console.log(`Session started:${session.mission.startTime}`);
      } catch (err) {
        message.channel.send("`Error: Can't do this in a DM channel.`");
        console.log(err);
@@ -163,6 +164,7 @@ client.on('message', message => {
          message.reply(`You don't appear to be a traitor. Keep up the good work!`);
        }
        stats.tasksCompleted++;
+       saveStats();
      } catch (err) {
        message.channel.send("`Oops, that's didn't work. :(`");
        console.log(err);
@@ -224,6 +226,21 @@ client.on('message', message => {
      console.log(`Log Stats: ${logStatsEnabled}`);
    }
 
+   //Copy the existing stats file to a new name, then reset all values to zero
+   if (message.content === '!archive') {
+     let time = new Date(Date.now());
+     let today = time.toString();
+     //Mon-DD-YYYY-HH-MM-SS
+     today = today.replace(/ |:/g,'-').slice(4,24);
+     fs.copyFile(`./stats/stats.json`, `./stats/stats${today}.json`, (err) => {
+       if (err) console.log(err);
+       for (var key in stats) {
+         stats[key] = 0;
+       }
+       saveStats();
+     });
+   }
+
    //Dump variables to console.  Deprecate after testing.
    if (message.content === '!dump') {
      try {
@@ -282,6 +299,7 @@ class Mission {
   constructor (minor1, minor2, major) {
     this.tasks = [minor1, minor2, major];
     this.currentTask = this.tasks[0];
+    this.startTime = Date.now();
   }
   nextTask() {
     if (this.tasks.indexOf(this.currentTask) < 2) {
@@ -290,10 +308,12 @@ class Mission {
   }
   getStatus() {
     let report = '';
+    let now = Date.now();
     for (const t of this.tasks) {
       const status = t.complete ? PASS : FAIL;
       report = report.concat(status, ' - ', t.task, '\n');
     }
+    report = report.concat(`**Elapsed time:** ${(now - this.startTime)/1000} Seconds`);
     return report;
   }
 }
@@ -302,7 +322,7 @@ class Mission {
 function saveStats(){
   if (!logStatsEnabled) return;
   let data = JSON.stringify(stats, null, 2);
-  fs.writeFile('stats.json', data, (err) => {
+  fs.writeFile('./stats/stats.json', data, (err) => {
     if (err) console.log(err);
     console.log('Data written to file');
   });
