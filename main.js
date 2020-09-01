@@ -102,9 +102,13 @@ client.on('message', message => {
           `**Their mission was:**\n` +
           `${session.mission.getStatus()}`);
        } else {
+         session.mission.endTime = Date.now();
+         console.log(`Session ended: ${session.mission.endTime}`);
          message.channel.send(`The traitor was **${session.traitor.displayName}**!\n` +
           `**Their mission was:**\n` +
           `${session.mission.getStatus()}`);
+          updateLeaderboard(session);
+          saveStats();
        }
     } catch (err) {
       message.channel.send("`Error: Can't do this in a DM channel.`");
@@ -300,6 +304,7 @@ class Mission {
     this.tasks = [minor1, minor2, major];
     this.currentTask = this.tasks[0];
     this.startTime = Date.now();
+    this.endTime = undefined;
   }
   nextTask() {
     if (this.tasks.indexOf(this.currentTask) < 2) {
@@ -308,12 +313,11 @@ class Mission {
   }
   getStatus() {
     let report = '';
-    let now = Date.now();
     for (const t of this.tasks) {
       const status = t.complete ? PASS : FAIL;
       report = report.concat(status, ' - ', t.task, '\n');
     }
-    report = report.concat(`**Elapsed time:** ${(now - this.startTime)/1000} Seconds`);
+    report = report.concat(`**Elapsed time:** ${(this.endTime - this.startTime)/1000} Seconds`);
     return report;
   }
 }
@@ -326,6 +330,20 @@ function saveStats(){
     if (err) console.log(err);
     console.log('Data written to file');
   });
+}
+
+function updateLeaderboard (session) {
+  for (const t of session.mission.tasks) {
+    if (!t.complete) {
+      return;
+    }
+  }
+  let elapsedTime = (session.mission.endTime - session.mission.startTime)/1000;
+  console.log(elapsedTime);
+  if (elapsedTime < stats.fastestVictory || stats.fastestVictory == 0) {
+    stats.fastestVictory = elapsedTime;
+    stats.fastestTraitor = session.traitor.displayName;
+  }
 }
 
 //Generate an integer between 0 and max, exclusive of max

@@ -3,5 +3,7 @@
   "traitorsRolled": 0,
   "tasksCompleted": 0,
   "tasksFailed": 0,
-  "surrenders": 0
+  "surrenders": 0,
+  "fastestVictory": 0,
+  "fastestTraitor": 0
 }
